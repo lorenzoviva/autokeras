@@ -168,7 +168,7 @@ class Normalization(Preprocessor):
             A DataLoader instance.
         """
         x = nest.flatten(x)[0]
-        return (x - self.mean) / self.std
+        return  tf.cast((x - self.mean) / self.std, self.output_types())
 
     def output_types(self):
         return tf.float64,
@@ -636,6 +636,7 @@ class ImageAugmentation(Preprocessor):
                                      seed=self.seed,
                                      dtype=tf.float32)
             x = tf.add(x, noise)
+        x = tf.cast(x, self.output_types())
         return x
 
     def output_types(self):
